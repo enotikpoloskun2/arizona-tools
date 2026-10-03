@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
 
-        /* --- ФОН С КАРТИНКАМИ (СТАТИЧНЫЙ) --- */
+        /* --- ОСНОВА --- */
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             min-height: 100vh;
@@ -25,40 +25,99 @@
             background-color: #0f0f1a;
         }
 
-        /* Слой с картинками */
-        .bg-layer {
+        /* --- ЗАДНИЙ ФОН: ОДНО БОЛЬШОЕ СТАТИЧНОЕ ИЗОБРАЖЕНИЕ --- */
+        .bg-static {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
-            display: flex;
-            flex-wrap: wrap;
+            z-index: -3;
         }
 
-        /* Каждая картинка занимает свою часть фона */
-        .bg-layer img {
-            width: 50%;
-            height: 50%;
+        .bg-static img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            filter: brightness(0.5);
+            filter: brightness(0.4) blur(2px);
         }
 
-        /* Затемнение поверх картинок, чтобы текст читался */
+        /* Затемнение поверх статичного фона */
         .bg-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(10, 10, 20, 0.8) 0%, rgba(20, 20, 40, 0.7) 100%);
+            background: linear-gradient(135deg, rgba(10, 10, 20, 0.85) 0%, rgba(20, 20, 40, 0.75) 100%);
+            z-index: -2;
+        }
+
+        /* --- ЛЕТАЮЩИЕ КАРТИНКИ --- */
+        .flying {
+            position: fixed;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            opacity: 0.55;
             z-index: -1;
+            pointer-events: none; /* чтобы не мешали нажимать кнопку */
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Каждая летающая картинка со своей анимацией */
+        .fly-1 {
+            width: 220px;
+            height: 140px;
+            top: 10%;
+            left: 5%;
+            animation: fly1 25s ease-in-out infinite;
+        }
+
+        .fly-2 {
+            width: 260px;
+            height: 160px;
+            top: 60%;
+            left: 70%;
+            animation: fly2 30s ease-in-out infinite;
+        }
+
+        .fly-3 {
+            width: 200px;
+            height: 130px;
+            top: 30%;
+            left: 80%;
+            animation: fly3 22s ease-in-out infinite;
+        }
+
+        /* Анимации полёта */
+        @keyframes fly1 {
+            0%   { transform: translate(0, 0) rotate(-8deg); }
+            25%  { transform: translate(120px, 80px) rotate(5deg); }
+            50%  { transform: translate(60px, 200px) rotate(-3deg); }
+            75%  { transform: translate(-40px, 100px) rotate(10deg); }
+            100% { transform: translate(0, 0) rotate(-8deg); }
+        }
+
+        @keyframes fly2 {
+            0%   { transform: translate(0, 0) rotate(6deg); }
+            25%  { transform: translate(-150px, -60px) rotate(-8deg); }
+            50%  { transform: translate(-80px, -180px) rotate(4deg); }
+            75%  { transform: translate(60px, -80px) rotate(-6deg); }
+            100% { transform: translate(0, 0) rotate(6deg); }
+        }
+
+        @keyframes fly3 {
+            0%   { transform: translate(0, 0) rotate(-5deg); }
+            25%  { transform: translate(-100px, 120px) rotate(8deg); }
+            50%  { transform: translate(-180px, 40px) rotate(-10deg); }
+            75%  { transform: translate(-60px, -60px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(-5deg); }
         }
 
         /* --- КАРТОЧКА --- */
         .card {
-            background: rgba(20, 20, 35, 0.75);
+            background: rgba(20, 20, 35, 0.8);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
@@ -66,6 +125,8 @@
             max-width: 520px;
             width: 100%;
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 1;
         }
         .header {
             text-align: center;
@@ -139,14 +200,16 @@
 </head>
 <body>
 
-    <!-- ФОН: статичные картинки -->
-    <div class="bg-layer">
+    <!-- ЗАДНИЙ ФОН: одно большое статичное изображение -->
+    <div class="bg-static">
         <img src="1.jpg" alt="">
-        <img src="2.jpg" alt="">
-        <img src="3.jpg" alt="">
-        <img src="4.jpg" alt="">
     </div>
     <div class="bg-overlay"></div>
+
+    <!-- ЛЕТАЮЩИЕ КАРТИНКИ (3 штуки) -->
+    <img src="2.jpg" class="flying fly-1" alt="">
+    <img src="3.jpg" class="flying fly-2" alt="">
+    <img src="4.jpg" class="flying fly-3" alt="">
 
     <!-- КАРТОЧКА -->
     <div class="card">
